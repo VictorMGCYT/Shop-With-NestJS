@@ -21,12 +21,13 @@ yarn install
 docker-compose -d
 ```
 
+7. Levantar el modo de desarrollo
+```
+yarn start:dev
+```
+
 6. Ejecutar seed para llenar la base de datos
 ```
 http:localhost:3000/api/seed
 ```
 
-7. Levantar el modo de desarrollo
-```
-yarn start:dev
-```
