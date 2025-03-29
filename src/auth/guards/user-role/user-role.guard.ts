@@ -16,7 +16,12 @@ export class UserRoleGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
 
-    const validRoles: string[] = this.reflector.get(META_ROLES, context.getHandler())
+    const validRoles: string[] = this.reflector.getAllAndOverride(META_ROLES, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+ 
+    console.log(validRoles)
 
     // Obtener los roles del usuario
     const req = context.switchToHttp().getRequest()
@@ -26,17 +31,18 @@ export class UserRoleGuard implements CanActivate {
       throw new BadRequestException()
     }
 
-    console.log(user.roles)
-    for( const role of user.roles ){
+    if( validRoles.length === 0 ){
+      console.log(validRoles)
+      return true
+    }
+
+    for( const role of user.roles){
       if( validRoles.includes(role) ){
         return true;
       }
     }
 
-    if( validRoles.length === 0 ){
-      console.log(validRoles)
-      return true
-    }
+    
 
     throw new ForbiddenException(
       `User ${user.fullName} doesn't have a valid role like: [${validRoles}]`
