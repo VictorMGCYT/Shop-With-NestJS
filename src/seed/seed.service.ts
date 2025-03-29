@@ -20,9 +20,9 @@ export class SeedService {
 
     const initialPromises: any | undefined = [];
 
-    products.forEach( product => {
-      initialPromises.push( this.productService.create( product ) );
-    })
+    // products.forEach( product => {
+    //   initialPromises.push( this.productService.create( product ) );
+    // })
 
     await Promise.all( initialPromises );
 
